@@ -13,7 +13,6 @@ def con_video():
     files = os.listdir('./')
     for f in files:
         if f == 'test.mp4':
-
             # print("Processing", f)
 
             video_list.append(f)
@@ -21,30 +20,41 @@ def con_video():
     # 720p at 2Mbps and 30fps
     # 480p at 1Mbps and 30fps
 
+    return video_list
+
+def con_720():
+    filename = con_video()
     subprocess.run('ffmpeg -i %s -s hd720 -r 30 -b:v 2M %s'
-                   % (video_list[0], (video_list[0])[:-4] + '720.mp4'),
+                   % (filename[0], (filename[0])[:-4] + '720.mp4'),
                    shell=True)
-    print ('Processed ' + video_list[0] + 'to hd720')
+    print('Processed ' + filename[0] + ' to hd720')
+
+def con_480():
+    filename = con_video()
     subprocess.run('ffmpeg -i %s -s hd480 -r 30 -b:v 1M %s'
-                   % (video_list[0], (video_list[0])[:-4] + '480.mp4'),
+                   % (filename[0], (filename[0])[:-4] + '480.mp4'),
                    shell=True)
-    print ('Processed ' + video_list[0] + 'to hd480')
+    print('Processed ' + filename[0] + ' to hd480')
 
-
-def main():
+def main(n):
     threads = []
     q = queue.Queue()
+    i =1
     try:
-        for i in range(1):
+        for i in range(n):
             q.put(i)
-            t = threading.Thread(target=con_video())
-            threads.append(t)
+            t1 = threading.Thread(target=con_720())
+            t2=threading.Thread(target=con_480())
+            threads.append(t1)
+            threads.append(t2)
+            t1.start()
+            t2.start()
 
     except Exception as error:
         print(error)
 
     for thread in threads:
-        t.start()
+
         thread.join()
 
 
@@ -59,4 +69,4 @@ def ffprobe(file_name):
 
 
 if __name__ == '__main__':
-    main()
+    main(2)
