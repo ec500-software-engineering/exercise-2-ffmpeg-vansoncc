@@ -5,6 +5,7 @@ import subprocess
 import os
 import queue
 import threading
+import json
 
 
 def con_video():
@@ -39,14 +40,22 @@ def main():
             t = threading.Thread(target=con_video())
             threads.append(t)
 
-
     except Exception as error:
         print(error)
-
 
     for thread in threads:
         t.start()
         thread.join()
+
+
+def ffprobe(file_name):
+    """ get media metadata """
+    meta = subprocess.check_output(['ffprobe', '-v', 'warning',
+                                    '-print_format', 'json',
+                                    '-show_streams',
+                                    '-show_format',
+                                    file_name])
+    return json.loads(meta)
 
 
 if __name__ == '__main__':
