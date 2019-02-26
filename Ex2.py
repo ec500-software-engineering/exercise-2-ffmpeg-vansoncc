@@ -21,12 +21,14 @@ def con_video():
 
     return video_list
 
+
 def con_720():
     filename = con_video()
     subprocess.run('ffmpeg -i %s -s hd720 -r 30 -b:v 2M %s'
                    % (filename[0], (filename[0])[:-4] + '720.mp4'),
                    shell=True)
     print('Processed ' + filename[0] + ' to hd720')
+
 
 def con_480():
     filename = con_video()
@@ -35,15 +37,16 @@ def con_480():
                    shell=True)
     print('Processed ' + filename[0] + ' to hd480')
 
+
 def main(n):
     threads = []
     q = queue.Queue()
-    i =1
+    i = 1
     try:
         for i in range(n):
             q.put(i)
             t1 = threading.Thread(target=con_720())
-            t2=threading.Thread(target=con_480())
+            t2 = threading.Thread(target=con_480())
             threads.append(t1)
             threads.append(t2)
             t1.start()
