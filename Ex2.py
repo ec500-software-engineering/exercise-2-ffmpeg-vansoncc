@@ -67,7 +67,7 @@ def ffprobe(file_name: Path)-> dict:
                                     '-print_format', 'json',
                                     '-show_streams',
                                     '-show_format',
-                                    file_name])
+                                    file_name], universal_newlines=True)
     return json.loads(meta)
 
 
