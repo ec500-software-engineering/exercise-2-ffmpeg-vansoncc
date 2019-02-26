@@ -15,7 +15,6 @@ def test1():
 
     assert in_duration == out_480_duaration
     assert in_duration == out_720_duaration
-    print("Passed Test")
+    # print("Passed Test")
 
 
-test1()
