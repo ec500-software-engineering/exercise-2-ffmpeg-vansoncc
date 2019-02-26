@@ -1,21 +1,49 @@
-import Ex2
 from pytest import approx
+import subprocess
 
 
-def test1():
+def test_duration():
     input = "test.mp4"
-    output_720 = "test720.mp4"
-    output_480 = "test480.mp4"
+    out_720 = "test720.mp4"
+    out_480 = "test480.mp4"
 
-    orig_meta = Ex2.ffprobe(input)
-    meta_480 = Ex2.ffprobe(output_480)
-    meta_720 = Ex2.ffprobe(output_720)
-    in_duration = (float)(orig_meta['format']['duration'].split('.')[0])
-    out_480_duaration = (float)(meta_480['format']['duration'].split('.')[0])
-    out_720_duaration = (float)(meta_720['format']['duration'].split('.')[0])
+    out_480_duration = subprocess.call(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            out_480,
+        ]
+    )
 
-    assert in_duration == approx(out_480_duaration)
-    assert in_duration == approx(out_720_duaration)
-    # print("Passed Test")
-
+    out_720_duration = subprocess.call(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            out_720,
+        ]
+    )
+    input_duration = subprocess.call(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            input,
+        ]
+    )
+    assert input_duration == approx(out_720_duration)
+    assert input_duration == approx(out_480_duration)
 
