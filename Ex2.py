@@ -5,6 +5,8 @@ import os
 import queue
 import threading
 import json
+from pathlib import Path
+
 
 
 def con_video():
@@ -60,8 +62,7 @@ def main(n):
         thread.join()
 
 
-def ffprobe(file_name):
-    """ get media metadata """
+def ffprobe(file_name: Path)-> dict:
     meta = subprocess.check_output(['ffprobe', '-v', 'warning',
                                     '-print_format', 'json',
                                     '-show_streams',
