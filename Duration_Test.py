@@ -1,5 +1,5 @@
 import Ex2
-
+from pytest import approx
 
 def test1():
     input = "test.mp4"
@@ -13,8 +13,8 @@ def test1():
     out_480_duaration = (float)(meta_480['format']['duration'].split('.')[0])
     out_720_duaration = (float)(meta_720['format']['duration'].split('.')[0])
 
-    assert in_duration == out_480_duaration
-    assert in_duration == out_720_duaration
+    assert in_duration == approx(out_480_duaration)
+    assert in_duration == approx(out_720_duaration)
     # print("Passed Test")
 
 
