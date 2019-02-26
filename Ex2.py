@@ -62,13 +62,15 @@ def main(n):
         thread.join()
 
 
-def ffprobe(file_name: Path)-> dict:
-    meta = subprocess.check_output(['ffprobe', '-v', 'warning',
-                                    '-print_format', 'json',
-                                    '-show_streams',
-                                    '-show_format',
-                                    file_name], universal_newlines=True)
-    return json.loads(meta)
+# def ffprobe_sync(filein: Path) -> dict:
+#         """ get media metadata """
+#     meta_json = subprocess.check_output([
+#         'ffprobe', '-v', 'warning', '-print_format',
+#         'json', '-show_streams', '-show_format', filein],
+#         universal_newlines=True)
+#
+#     return json.loads(meta_json)
+
 
 
 if __name__ == '__main__':
