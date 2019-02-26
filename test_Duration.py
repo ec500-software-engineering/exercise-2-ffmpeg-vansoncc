@@ -17,7 +17,7 @@ def test_duration():
             "-of",
             "default=noprint_wrappers=1:nokey=1",
             out_480,
-        ]
+        ], shell=True
     )
     print(out_480_duration)
 
@@ -31,7 +31,7 @@ def test_duration():
             "-of",
             "default=noprint_wrappers=1:nokey=1",
             out_720,
-        ]
+        ], shell=True
     )
     print(out_720_duration)
     input_duration = subprocess.call(
@@ -44,7 +44,7 @@ def test_duration():
             "-of",
             "default=noprint_wrappers=1:nokey=1",
             input_video,
-        ]
+        ], shell=True
     )
     print(input_duration)
     assert input_duration == approx(out_720_duration)
